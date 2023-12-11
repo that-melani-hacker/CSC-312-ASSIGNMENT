@@ -1,0 +1,733 @@
+NUMBER ONE........ FIRST ARRAY
+#include<stdio.h>
+#include<conio.h>
+#define MAX 10
+void create();
+void insert();
+void deletion();
+void search();
+void display();
+int a, b[20], n, p, e, f, i, pos;
+void main()
+{
+//clrscr();
+int ch;
+char g='y';
+do
+{
+printf("\n main Menu");
+printf("\n 1.Create \n 2.Delete \n 3.Search \n 4.Insert \n 5.Display\n 6.Exit \n");
+printf("\n Enter your Choice");
+scanf("%d", &ch);
+switch(ch)
+{
+case 1:
+create();
+break;
+case 2:
+deletion();
+break;
+case 3:
+search();
+break;
+case 4:
+insert();
+break;
+case 5:
+display();
+break;
+case 6:
+exit();
+break;
+default:
+printf("\n Enter the correct choice:");
+}
+printf("\n Do u want to continue:::");
+scanf("\n%c", &g);
+}
+while(g=='y'||g=='Y');
+getch();
+}
+void create()
+{
+printf("\n Enter the number of nodes");
+scanf("%d", &n);
+for(i=0;i<n;i++)
+{
+printf("\n Enter the Element:",i+1);
+scanf("%d", &b[i]);
+}
+}
+void deletion()
+{
+printf("\n Enter the position you want to delete::");
+scanf("%d", &pos);
+if(pos>=n)
+{
+printf("\n Invalid Location::");
+}
+else
+{
+for(i=pos+1;i<n;i++)
+{
+b[i-1]=b[i];
+}
+n--;
+}
+printf("\n The Elements after deletion");
+for(i=0;i<n;i++)
+{
+printf("\t%d", b[i]);
+}
+}
+void search()
+{
+printf("\n Enter the Element to be searched:");
+scanf("%d", &e);
+for(i=0;i<n;i++)
+{
+if(b[i]==e)
+{
+printf("Value is in the %d Position", i);
+}
+else
+{
+printf("Value %d is not in the list::", e);
+continue;
+}
+}
+}
+void insert()
+{
+printf("\n Enter the position u need to insert::");
+scanf("%d", &pos);
+if(pos>=n)
+{
+printf("\n invalid Location::");
+}
+else
+{
+for(i=MAX-1;i>=pos-1;i--)
+{
+b[i+1]=b[i];
+}
+printf("\n Enter the element to insert::\n");
+scanf("%d",&p);
+b[pos]=p;
+n++;
+}
+printf("\n The list after insertion::\n");
+display();
+}
+void display()
+{
+printf("\n The Elements of The list ADT are:");
+for(i=0;i<n;i++)
+{
+printf("\n\n%d", b[i]);
+}
+}
+
+
+NUMBER TWO....... IMPLEMENTATION IN C
+#include <stdio.h>
+int main() {
+ typedef struct node {
+ int val;
+ struct node * next;
+ } node_t;
+ 
+return 0;
+}
+
+
+NUMBER THREE........ CREATE LOCAL VARIABLE THAT POINTS TO FIRST ITEM ON THE LIST
+#include <stdio.h>
+int main() {
+ node_t * head = NULL;
+ head = malloc(sizeof(node_t));
+ if (head == NULL) {
+ return 1;
+ }
+ 
+ head->val = 1;
+ head->next = NULL;
+ 
+return 0
+
+
+
+NUMBER FOUR....  ADD VARIABLE TO THE END OF THE LIST
+#include <stdio.h>
+int main() {
+ node_t * head = NULL;
+ head = malloc(sizeof(node_t));
+ head->val = 1;
+ head->next = malloc(sizeof(node_t));
+ head->next->val = 2;
+ head->next->next = NULL;
+ 
+return 0;
+}
+
+NUNBER FIVE....... ITERATION
+#include <stdio.h>
+int main() {
+ void print_list(node_t * head) {
+ node_t * current = head;
+ 
+ while (current != NULL) {
+ printf("%d\n", current->val);
+ current = current->next;
+ }
+ }
+return 0;
+
+
+NUMBER SIX..... ADD AN ITEM TO THE END OF THE LIST
+#include <stdio.h>
+int main() {
+ void push(node_t * head, int val) {
+ node_t * current = head;
+ while (current->next != NULL) {
+ current = current->next;
+ }
+ 
+ /* now we can add a new variable */
+ current->next = malloc(sizeof(node_t));
+ current->next->val = val;
+ current->next->next = NULL;
+ }
+ 
+return 0;
+}
+
+
+NUMBER SEVEN..... ADD ITEM TO THE BEGINNING OF THE LIST
+#include <stdio.h>
+int main() {
+ void push(node_t ** head, int val) {
+ node_t * new_node;
+ new_node = malloc(sizeof(node_t));
+ 
+ new_node->val = val;
+ new_node->next = *head;
+ *head = new_node;
+ }
+ 
+return 0;
+}
+
+
+NUMBER EIGHT .......  REMOVING THE FIRST ITEM
+#include <stdio.h>
+int main() {
+ int pop(node_t ** head) {
+ int retval = -1;
+ node_t * next_node = NULL;
+ 
+ if (*head == NULL) {
+ return -1;
+ }
+ 
+ next_node = (*head)->next;
+ retval = (*head)->val;
+ free(*head);
+ *head = next_node;
+ 
+ return retval;
+ }
+ 
+return 0;
+}
+
+
+NUMBER NINE ..... REMOVING THE LAST ITEM ON THE LIST 
+#include <stdio.h>
+int main() {
+ int remove_last(node_t * head) {
+ int retval = 0;
+ /* if there is only one item in the list, remove it */
+ if (head->next == NULL) {
+ retval = head->val;
+ free(head);
+ return retval;
+ }
+ 
+ /* get to the second to last node in the list */
+ node_t * current = head;
+ while (current->next->next != NULL) {
+ current = current->next;
+ }
+ 
+ /* now current points to the second to last item of the list, so let's remove current->next */
+ retval = current->next->val;
+ free(current->next);
+ current->next = NULL;
+ return retval;
+ 
+ }
+ 
+return 0;
+}
+
+
+NUMBER TEN ....  REMOVING A SPECIFIC ITEM
+#include <stdio.h>
+int main() {
+ int remove_by_index(node_t ** head, int n) {
+ int i = 0;
+ int retval = -1;
+ node_t * current = *head;
+ node_t * temp_node = NULL;
+ 
+ if (n == 0) {
+ return pop(head);
+ }
+ 
+ for (i = 0; i < n-1; i++) {
+ if (current->next == NULL) {
+ return -1;
+ }
+ current = current->next;
+ }
+ 
+ temp_node = current->next;
+ retval = temp_node->val;
+ current->next = temp_node->next;
+ free(temp_node);
+ 
+ return retval;
+ 
+ }
+ 
+return 0;
+}
+
+
+
+NUMBER ELEVEN..... IMPLEMENTATION OF STACK IN C
+#include <stdio.h>
+int MAXSIZE = 8; 
+int stack[8]; 
+int top = -1; 
+int isempty() {
+ if(top == -1)
+ return 1;
+ else
+ return 0;
+}
+ 
+int isfull() {
+ if(top == MAXSIZE)
+ return 1;
+ else
+ return 0;
+}
+int peek() {
+ return stack[top];
+}
+int pop() {
+ int data;
+ if(!isempty()) {
+ data = stack[top];
+ top = top - 1; 
+ return data;
+ } else {
+ printf("Could not retrieve data, Stack is empty.\n");
+ }
+}
+int push(int data) {
+ if(!isfull()) {
+ top = top + 1; 
+ stack[top] = data;
+ } else {
+ printf("Could not insert data, Stack is full.\n");
+ }
+}
+int main() {
+ // push items on to the stack 
+ push(3);
+ push(5);
+ push(9);
+ push(1);
+ push(12);
+ push(15);
+ printf("Element at top of the stack: %d\n" ,peek());
+ printf("Elements: \n");
+ // print stack data 
+ while(!isempty()) {
+ int data = pop();
+ printf("%d\n",data);
+ }
+ printf("Stack full: %s\n" , isfull()?"true":"false");
+ printf("Stack empty: %s\n" , isempty()?"true":"false");
+ 
+ return 0;
+}
+
+
+
+NUMBER TWELVE.... Write a function to perform a PUSH operation on a dynamically allocated stack containing real number.
+struct Node
+{ float Number ;
+Node *Link ;
+} ;
+class STACK
+{ Node *Top ;
+public :
+STACK( ) {Top = NULL ;}
+void PUSH( ) ;
+void POP( ) ;
+~STACK( ) ;
+} ;
+void STACK::PUSH( )
+{ Node *Temp;
+Temp=new Node;
+if(Temp= =NULL)
+{
+cout<<”\nNo memory to create the node…”;
+exit(1);
+}
+cout<<”\nEnter the Number to be inserted: “;
+cin>>Temp→ Number;
+Temp→ Link=Top;
+Top=Temp;
+}
+
+
+NUMBER THIRTEEN .........  a program to convert and evaluate infix notation to 
+postfix notation
+
+#include
+#include<stdio.h> 
+#include<string.h> 
+//char stack
+char stack[25]; 
+int top = -1; 
+void push(char item) {
+ stack[++top] = item; 
+} 
+char pop() {
+ return stack[top--]; 
+} 
+//returns precedence of operators
+int precedence(char symbol) {
+ switch(symbol) {
+ case '+': 
+ case '-':
+ return 2; 
+ break; 
+ case '*': 
+ case '/':
+ return 3; 
+ break; 
+ case '^': 
+ return 4; 
+ break; 
+ case '(': 
+ case ')': 
+ case '#':
+ return 1; 
+ break; 
+ } 
+} 
+//check whether the symbol is operator?
+int isOperator(char symbol) {
+ switch(symbol) {
+ case '+': 
+ case '-': 
+ case '*': 
+ case '/': 
+ case '^': 
+ case '(': 
+ case ')':
+ return 1; 
+ break; 
+ default:
+ return 0; 
+ } 
+} 
+//converts infix expression to postfix
+void convert(char infix[],char postfix[]) {
+ int i,symbol,j = 0; 
+ stack[++top] = '#'; 
+ for(i = 0;i<strlen(infix);i++) {
+ symbol = infix[i]; 
+ if(isOperator(symbol) == 0) {
+ postfix[j] = symbol; 
+ j++; 
+ } else {
+ if(symbol == '(') {
+ push(symbol); 
+ }else {
+ if(symbol == ')') {
+ while(stack[top] != '(') {
+ postfix[j] = pop(); 
+j++; 
+ } 
+ pop();//pop out (. 
+ } else {
+ if(precedence(symbol)>precedence(stack[top])) {
+ push(symbol); 
+ }else {
+ while(precedence(symbol)<=precedence(stack[top])) {
+ postfix[j] = pop(); 
+j++; 
+ } 
+ push(symbol); 
+ }
+ }
+ }
+ }
+ }
+ while(stack[top] != '#') {
+ postfix[j] = pop(); 
+ j++; 
+ } 
+ postfix[j]='\0';//null terminate string. 
+} 
+//int stack
+int stack_int[25]; 
+int top_int = -1; 
+void push_int(int item) {
+ stack_int[++top_int] = item; 
+} 
+char pop_int() {
+ return stack_int[top_int--]; 
+} 
+//evaluates postfix expression
+int evaluate(char *postfix){
+ char ch;
+ int i = 0,operand1,operand2;
+ while( (ch = postfix[i++]) != '\0') {
+ if(isdigit(ch)) {
+ push_int(ch-'0'); // Push the operand 
+ }else {
+ //Operator,pop two operands 
+ operand2 = pop_int();
+ operand1 = pop_int();
+ switch(ch) {
+ case '+':
+ push_int(operand1+operand2);
+ break;
+ case '-':
+ push_int(operand1-operand2);
+ break;
+ case '*':
+ push_int(operand1*operand2);
+ break;
+ case '/':
+ push_int(operand1/operand2);
+ break;
+ }
+ }
+ }
+ return stack_int[top_int];
+}
+void main() { 
+ char infix[25] = "1*(2+3)",postfix[25]; 
+ convert(infix,postfix); 
+ printf("Infix expression is: %s\n" , infix);
+ printf("Postfix expression is: %s\n" , postfix);
+ printf("Evaluated expression is: %d\n" , evaluate(postfix));
+}
+
+
+
+BUNCH OF QUESTIONS IN ONE
+#include <stdio.h>
+#include <string.h>
+#define MAXSIZE 100
+#define TRUE 1
+#define FALSE 0 
+// Structure defining Stack data structure
+struct Stack {
+ int top;
+ int array[MAXSIZE];
+} st;
+/*
+Initializes the top index to -1
+*/
+void initialize() {
+st.top = -1;
+}
+/*
+Checks if Stack is Full or not 
+*/
+int isFull() { 
+ if(st.top >= MAXSIZE-1)
+ return TRUE;
+ else
+ return FALSE;
+}
+/*
+Checks if Stack is Empty or not
+*/
+int isEmpty() {
+if(st.top == -1)
+ return TRUE;
+else
+ return FALSE;
+}
+/*
+Adds an element to stack and then increment top index 
+*/
+void push(int num) {
+ if (isFull())
+ printf("Stack is Full...\n");
+ else {
+ st.array[st.top + 1] = num;
+ st.top++;
+ }
+}
+/*
+Removes top element from stack and decrement top index
+*/
+int pop() {
+ if (isEmpty())
+ printf("Stack is Empty...\n");
+ else {
+ st.top = st.top - 1;
+ return st.array[st.top+1];
+ }
+}
+int main() {
+ char inputString[100], c;
+ int i, length;
+ initialize();
+ printf("Enter a string\n");
+ gets(inputString);
+ length = strlen(inputString);
+ /* Push all characters of input String to Stack */
+ for(i = 0; i < length; i++){
+ push(inputString[i]);
+ }
+ /* Poping characters from stack returs the characters of input string
+ in reverse order. We will then compare it with corresponding 
+ characters of input string. If we found a mismatch the input 
+ string is not a palindrome string */
+ for(i = 0; i < length; i++){
+ if(pop() != inputString[i]) {
+ printf("Not a Palindrome String\n");
+ return 0;
+ }
+ }
+ printf("Palindrome String\n");
+ return 0;
+}
+</string.h></stdio.h>
+
+
+......... FINAL PALINDROME QUESTION.
+/*
+* C Program to Identify whether the String is Palindrome or not using Stack
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define MAX 50
+int top = -1, front = 0;
+int stack[MAX];
+void push(char);
+void pop();
+void main()
+{
+ int i, choice;
+ char s[MAX], b;
+ while (1)
+ {
+ printf("1-enter string\n2-exit\n");
+ printf("enter your choice\n");
+ scanf("%d", &choice);
+ switch (choice)
+ {
+ case 1:
+ printf("Enter the String\n");
+ scanf("%s", s);
+ for (i = 0;s[i] != '\0';i++)
+ {
+ b = s[i];
+ push(b);
+ }
+ for (i = 0;i < (strlen(s) / 2);i++)
+ {
+ if (stack[top] == stack[front])
+ {
+ pop();
+front++;
+ }
+ else
+ {
+ printf("%s is not a palindrome\n", s);
+ break; 
+ }
+ }
+ if ((strlen(s) / 2) = = front)
+ printf("%s is palindrome\n", s);
+ front = 0;
+ top = -1;
+ break;
+ case 2:
+ exit(0);
+ default:
+ printf("enter correct choice\n");
+ }
+ }
+}
+
+
+MAY BE ADDED!!!!!!
+/* to push a character into stack */
+void push(char a)
+{
+ top++;
+ stack[top] = a;
+}
+/* to delete an element in stack */
+void pop()
+{
+ top--;
+}
+
+
+USING JAVA FOR THE PALINDROME QUESTION
+public class palindorme{
+public static void main(String[] args){
+Scanner uin = new Scanner(System.in);
+//creating the stacks for the string
+Stack str1 = new Stack();
+Stack revStr = new Stack(); //to hold the reverse string
+System.out.print("What's your test word: ");
+String str = uin.next().toLowerCase(); //input the string
+char[] mainStr = str.toCharArray(); //splitting the given string to individual 
+characters.
+//pushing the characters of the given string to the first stack.
+for(int i = 0; i < mainStr.length; i++){
+str1.push(mainStr[i]);
+}
+//pushing the reverse of the string to another stack
+for(int j = 0; j < mainStr.length; j++){
+revStr.push(mainStr[(mainStr.length - 1) - j]);
+}
+//popping the items in the original stack and comparing with the reversed stack (as 
+long as the stack is not empty)
+while(!str1.empty()){ //as long as the stack is not empty
+if(str1.pop() == revStr.pop()){ //if the top of the reversed stack is same 
+as the top of the normal stack
+//check if it's the last item in the stack that just got popped.
+if(str1.size() == 0){
+//if it's the last item then the string is a palindrome.
+System.out.println(str + " is a palindrome");
+break;
+} else{
+continue;
+}
+} else { // if the top of the two stacks are not the same then automatically, 
+it is not a palindrome.
+System.out.println(str + " is not a palindrome");
+break;
+}
+}
+}
+}
